@@ -18,8 +18,18 @@
 - [ ] Implement Role-Based Access Control (RBAC)
 - [ ] Restrict `TaskEntity` fetching to the logged-in user
 
-## 💡 Phase 3: Low-Level Design (LLD) Concepts
-- [ ] Understand Class Diagrams, Object Diagrams
+## 🧩 Phase 3 : Next Functional Features'
+- [ ] Add pagination and search filters.
+- [ ] Add task comments/notes (1:N relationship).
+- [ ] Add due date notifications or email triggers (Scheduler + Email Service).
+- [ ] Add priority, labels/tags (Enum & additional filtering).
+- [ ] Add activity logs or history tracking (Audit trail).
+- [ ] Implement file attachments for tasks (S3 / Local storage).
+
+
+## 💡 Phase 4: Low-Level Design (LLD) Concepts
+- [ ] Understand LLD vs HLD: Terminologies, responsibilities.
+- [ ] SOLID Principles with examples from your project.
 - [ ] Practice writing Design Docs for features
 - [ ] Implement common LLD patterns:
     - [ ] Singleton
@@ -27,15 +37,31 @@
     - [ ] Strategy
     - [ ] Observer
 - [ ] Apply SOLID principles in the project
-- [ ] Design and build reusable service layers
+- [ ] Service Layer Design
+- [ ] Interface-driven Development
+- [ ] Entity Relationships & Aggregates
+- [ ] DTO vs Entity vs Model
+- [ ] Builder Pattern for DTO creation
+- [ ] Clean Architecture / Hexagonal Architecture
+- [ ] Refactoring for separation of concerns
+- [ ] Code Modularization and Packages
 
-## 🧠 Phase 4: Advanced Spring Concepts
+## 🧠 Phase 5: Advanced Spring Concepts
 - [ ] Exception Handling using `@ControllerAdvice`
 - [ ] Global response wrapper (consistent API structure)
 - [ ] Pagination & Sorting
 - [ ] Logging with SLF4J / Logback
 - [ ] Validation with `@Valid` and `@NotNull`, etc.
 - [ ] Swagger API documentation
+
+## 📦 Phase 6: System Design Basics
+- [ ] Design RESTful APIs – Best Practices.
+- [ ] API Rate Limiting, Throttling.
+- [ ] Logging and Monitoring (Actuator, ELK).
+- [ ] Database Indexing, Joins, Query Optimization.
+- [ ] Caching with Redis.
+- [ ] Async Processing using Queues or Events.
+- [ ] Introduction to Microservices.
 
 ## 🚀 Bonus Learning Goals (To Become Senior)
 - [ ] Build a microservice version of the app
