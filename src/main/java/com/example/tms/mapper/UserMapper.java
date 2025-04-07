@@ -13,6 +13,7 @@ public class UserMapper {
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getTasks() != null ? user.getTasks().stream().map(TaskEntity::getId).collect(Collectors.toList()) : null
         );
     }

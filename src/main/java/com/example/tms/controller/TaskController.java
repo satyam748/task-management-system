@@ -1,10 +1,12 @@
-package com.example.tms;
+package com.example.tms.controller;
 
+import com.example.tms.Response;
 import com.example.tms.dto.TaskDto;
 import com.example.tms.dto.UserDto;
 import com.example.tms.entity.TaskEntity;
 import com.example.tms.entity.UserEntity;
-import org.springframework.data.domain.Page;
+import com.example.tms.services.TaskService;
+import com.example.tms.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +24,12 @@ public class TaskController {
         this.userService = userService;
     }
 
-    @GetMapping("tasks")
+    @GetMapping("tasks/getAll")
     public Response<List<TaskDto>> getAllTasks(){
         return taskService.getAllTask();
     }
 
-    @PostMapping("tasks")
+    @PostMapping("tasks/create")
     public Response<TaskDto> createTask(@RequestBody TaskEntity task) {
         return taskService.createTask(task);
     }
@@ -47,12 +49,12 @@ public class TaskController {
         return taskService.getTasks(filters);
     }
 
-    @GetMapping("users")
+    @GetMapping("users/get")
     public Response<List<UserDto>> getUsers(){
         return userService.getAllUser();
     }
 
-    @PostMapping("users")
+    @PostMapping("users/create")
     public Response<UserDto> createUser(@RequestBody UserEntity user){
         return userService.createUser(user);
     }

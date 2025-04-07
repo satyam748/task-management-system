@@ -7,12 +7,14 @@ public class UserDto {
     private int id;
     private String name;
     private String email;
+    private String username;
     private List<Integer> tasks;
 
-    public UserDto(int id, String name, String email, List<Integer> tasks) {
+    public UserDto(int id, String name, String email, String username, List<Integer> tasks) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.username = username;
         this.tasks = tasks;
     }
 
@@ -30,6 +32,22 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<Integer> getTasks() {

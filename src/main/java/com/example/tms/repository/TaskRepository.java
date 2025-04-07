@@ -1,4 +1,4 @@
-package com.example.tms;
+package com.example.tms.repository;
 
 import com.example.tms.entity.TaskEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
