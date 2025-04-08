@@ -1,6 +1,7 @@
 package com.example.tms.services;
 
 import com.example.tms.Response;
+import com.example.tms.enums.Role;
 import com.example.tms.repository.TaskRepository;
 import com.example.tms.TaskSpecification;
 import com.example.tms.repository.UserRepository;
@@ -9,8 +10,12 @@ import com.example.tms.entity.TaskEntity;
 import com.example.tms.entity.UserEntity;
 import com.example.tms.mapper.TaskMapper;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,11 +36,30 @@ public class TaskService {
     }
 
     public Response<List<TaskDto>> getAllTask(){
-        List<TaskEntity> tasks = taskRepo.findAll();
-        if(tasks.isEmpty())
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isAdminOrManager = authorities.stream().anyMatch(auth-> auth.getAuthority().equals(Role.ROLE_ADMIN.name()) ||
+                auth.getAuthority().equals(Role.ROLE_MANAGER.name()));
+
+        List<TaskEntity> tasks = null;
+
+        if(isAdminOrManager) {
+            tasks = taskRepo.findAll();
+        }else{
+            Optional<UserEntity> user= userRepo.findByUsername(loggedInUsername);
+            if (user.isPresent())
+                tasks = user.get().getTasks();
+            else
+                return Response.error("User not found", null, "E1002");
+        }
+        if (tasks == null || tasks.isEmpty())
             return Response.error("No tasks found", null, "E1000");
-        List<TaskDto> tasksDto = tasks.stream().filter(task -> !task.isDeleted()).map(TaskMapper::convertToDto).collect(Collectors.toList());
-        return Response.success("Tasks retrieved successfully", tasksDto);
+
+        List<TaskDto> tasksDto = tasks.stream().map(TaskMapper::convertToDto).collect(Collectors.toList());
+        return Response.success("Tasks retrieved", tasksDto);
     }
 
     public Response<List<TaskDto>> getTasks(Map<String, String> filters){

@@ -26,7 +26,7 @@ public class UserService {
     public Response<UserDto> createUser(UserEntity user){
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.setRole(Role.USER);
+        user.setRole(Role.ROLE_USER);
         UserEntity newUser =  userRepo.save(user);
         return Response.success("User created successfully", UserMapper.convertToDto(newUser));
     }

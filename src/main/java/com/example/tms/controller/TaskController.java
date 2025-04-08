@@ -7,6 +7,7 @@ import com.example.tms.entity.TaskEntity;
 import com.example.tms.entity.UserEntity;
 import com.example.tms.services.TaskService;
 import com.example.tms.services.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class TaskController {
         return taskService.updateTask(id, task);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("tasks/delete/{id}")
     public Response<TaskDto> deleteTaskById(@PathVariable int id){
         return taskService.deleteTaskById(id);
@@ -49,16 +51,19 @@ public class TaskController {
         return taskService.getTasks(filters);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("users/get")
     public Response<List<UserDto>> getUsers(){
         return userService.getAllUser();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("users/create")
     public Response<UserDto> createUser(@RequestBody UserEntity user){
         return userService.createUser(user);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping("tasks/{taskId}/assign/{userId}")
     public Response<TaskDto> assignTaskToUser(@PathVariable int taskId, @PathVariable int userId) {
         return taskService.assignTaskToUser(taskId, userId);

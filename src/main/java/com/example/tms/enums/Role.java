@@ -1,6 +1,7 @@
 package com.example.tms.enums;
 
 public enum Role {
-    ADMIN,
-    USER
+    ROLE_ADMIN,
+    ROLE_USER,
+    ROLE_MANAGER
 }
