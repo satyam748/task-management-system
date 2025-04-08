@@ -9,10 +9,15 @@ import com.example.tms.dto.TaskDto;
 import com.example.tms.entity.TaskEntity;
 import com.example.tms.entity.UserEntity;
 import com.example.tms.mapper.TaskMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -60,6 +65,25 @@ public class TaskService {
 
         List<TaskDto> tasksDto = tasks.stream().map(TaskMapper::convertToDto).collect(Collectors.toList());
         return Response.success("Tasks retrieved", tasksDto);
+    }
+
+    public Response<Page<TaskDto>> getPaginatedTasks(int page, int size, String sortBy, String sortDir){
+        String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepo.findByUsername(loggedInUsername).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        boolean isAdminOrManager = user.getRole().equals(Role.ROLE_ADMIN) || user.getRole().equals(Role.ROLE_MANAGER);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDir), sortBy));
+
+        Page<TaskEntity> taskPages;
+        if (isAdminOrManager)
+            taskPages = taskRepo.findAll(pageable);
+        else
+            taskPages = taskRepo.findAllByAssignedUser(user, pageable);
+
+        Page<TaskDto> taskDtoPage = taskPages.map(TaskMapper::convertToDto);
+
+        return Response.success("Task retrieved successfully", taskDtoPage);
+
     }
 
     public Response<List<TaskDto>> getTasks(Map<String, String> filters){

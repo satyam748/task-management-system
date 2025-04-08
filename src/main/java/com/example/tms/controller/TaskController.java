@@ -7,6 +7,7 @@ import com.example.tms.entity.TaskEntity;
 import com.example.tms.entity.UserEntity;
 import com.example.tms.services.TaskService;
 import com.example.tms.services.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,16 @@ public class TaskController {
     @GetMapping("tasks/getAll")
     public Response<List<TaskDto>> getAllTasks(){
         return taskService.getAllTask();
+    }
+
+    @GetMapping("tasks/getAllPaginated")
+    public Response<Page<TaskDto>> getPaginatedTask(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDir
+    ){
+        return taskService.getPaginatedTasks(page, size, sortBy, sortDir);
     }
 
     @PostMapping("tasks/create")
