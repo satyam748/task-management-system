@@ -12,7 +12,8 @@ public class TaskMapper {
                 task.getTitle(),
                 task.getDescription(),
                 task.getStatus(),
-                task.getAssignedUser() != null ? task.getAssignedUser().getId() : null
+                task.getAssignedUser() != null ? task.getAssignedUser().getId() : null,
+                task.getAttachmentPath()
         );
     }
 

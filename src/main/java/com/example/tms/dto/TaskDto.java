@@ -1,6 +1,8 @@
 package com.example.tms.dto;
 
 
+import java.util.List;
+
 public class TaskDto {
 
     private int id;
@@ -8,13 +10,15 @@ public class TaskDto {
     private String description;
     private String status;
     private Integer assignedUser;
+    private List<String> attachedFile;
 
-    public TaskDto(int id, String title, String description, String status, Integer assignedUser) {
+    public TaskDto(int id, String title, String description, String status, Integer assignedUser,  List<String> attachedFile) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.assignedUser = assignedUser;
+        this.attachedFile = attachedFile;
     }
 
     public int getId() {
@@ -55,5 +59,13 @@ public class TaskDto {
 
     public void setAssignedUser(Integer assignedUser) {
         this.assignedUser = assignedUser;
+    }
+
+    public  List<String> getAttachedFile() {
+        return attachedFile;
+    }
+
+    public void setAttachedFile( List<String> attachedFile) {
+        this.attachedFile = attachedFile;
     }
 }

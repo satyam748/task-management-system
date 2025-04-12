@@ -1,0 +1,22 @@
+Airflow: It is open source application for developing, scheduling and monitoring batch-oriented workflows
+- All workflows are defined as python code and each workflow is a directed acylic graph
+- Each vertex is bit of work and each edge is dependency
+- Allows for dynamic pipeline generation
+
+Components of Airflow
+1)Scheduler:
+- It triggers scheduled workflows and submits tasks to the executor to run.
+- It serves as manager for airflow.
+- It determined when a task should be executed depending upon 1)completion of dependencies 2)availibility of resources. - Keeps track of task's states and handles failure and retries.
+2)Executor:
+- Recieved task from scheduler to execute - in the default installation it runs inside scheduler
+- Type of Executors:  Mainly 2 types of executor - those that run locally (inside scheduler process), and those that run their tasks remotely( via pool of workers). First two executors below run locally and last two which run remotely
+	2.1) Sequential Executor: Default executor. It executes task sequentially. No parallel task running.
+	2.2) Local Executor: Can executed muliple task parallely in a single machine
+	2.3) Celery Executor: Parallel execution of tasks across multiple worker processes for multi-machine/cloud. Celery is an open source distributed task queue sysyem. It also uses message broker like RabbitMQ, Redis etc.
+	2.4) Kubernates Executor: For containerization production workflows.
+3)Metadata database: Store state of tasks
+4)webserver
+
+Operators: Predefined tasks that can be used to build the nodes(or vertex) in workflow DAG
+Xcoms: "Cross-communications" - a system to pass data between tasks where tasks can push and pull small bits of metadata 

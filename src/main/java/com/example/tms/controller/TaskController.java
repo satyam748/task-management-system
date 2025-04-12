@@ -5,11 +5,14 @@ import com.example.tms.dto.TaskDto;
 import com.example.tms.dto.UserDto;
 import com.example.tms.entity.TaskEntity;
 import com.example.tms.entity.UserEntity;
+import com.example.tms.services.FileStorageService;
 import com.example.tms.services.TaskService;
 import com.example.tms.services.UserService;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -21,9 +24,12 @@ public class TaskController {
 
     private final UserService userService;
 
-    public TaskController(TaskService taskService, UserService userService){
+    private final FileStorageService fileStorageService;
+
+    public TaskController(TaskService taskService, UserService userService, FileStorageService fileStorageService){
         this.taskService = taskService;
         this.userService = userService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping("tasks/getAll")
@@ -80,5 +86,18 @@ public class TaskController {
         return taskService.assignTaskToUser(taskId, userId);
     }
 
+    @PostMapping("tasks/{taskId}/uploadFile")
+    public Response<String> uploadFile(@PathVariable int taskId, @RequestParam("file") MultipartFile file){
+        return fileStorageService.uploadFile(taskId, file);
+    }
 
+    @GetMapping("tasks/getFile/{filename}")
+    public Resource getFile(@PathVariable String filename){
+        return fileStorageService.getFile(filename);
+    }
+
+    @GetMapping("tasks/listFiles")
+    public List<String> getFile(){
+        return fileStorageService.listFiles();
+    }
 }

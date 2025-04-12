@@ -3,6 +3,7 @@ package com.example.tms.entity;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 public class TaskEntity {
@@ -22,6 +23,16 @@ public class TaskEntity {
     @ManyToOne()
     @JoinColumn(name = "assigned_user_id")
     private UserEntity assignedUser;
+
+    private List<String> attachmentPath;
+
+    public List<String> getAttachmentPath() {
+        return attachmentPath;
+    }
+
+    public void setAttachmentPath(List<String> attachmentPath) {
+        this.attachmentPath = attachmentPath;
+    }
 
     public UserEntity getAssignedUser() {
         return assignedUser;
